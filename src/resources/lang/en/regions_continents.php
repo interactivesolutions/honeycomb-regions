@@ -10,12 +10,12 @@ return [
 
     'continent' =>
         [
-            "asia"          => "Asia",
-            "oceania"       => "Oceania",
-            "europe"        => "Europe",
-            "africa"        => "Africa",
-            "north_america" => "North America",
-            "south_america" => "South America",
-            "antarctica"    => "Antarctica",
+            "as" => "Asia",
+            "oc" => "Oceania",
+            "eu" => "Europe",
+            "af" => "Africa",
+            "na" => "North America",
+            "sa" => "South America",
+            "an" => "Antarctica",
         ]
 ];

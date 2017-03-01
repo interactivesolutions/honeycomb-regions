@@ -31,7 +31,7 @@ class ContinentsSeeder extends Seeder
                 $record = HCContinents::find($key);
 
                 if (!$record)
-                    HCContinents::create(['id' => $key, 'translation_key' => 'HCRegions::regions_continents.continent.' . createTranslationKey($value)]);
+                    HCContinents::create(['id' => $key, 'translation_key' => 'HCRegions::regions_continents.continent.' . createTranslationKey($key)]);
             }
         } catch (\Exception $e)
         {
