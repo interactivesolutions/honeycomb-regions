@@ -1,21 +1,30 @@
 {
-    "general":
-    {
+    "general": {
         "serviceProviderNameSpace": "HCRegions"
     },
-    "formData":
-    [
+    "formData": {},
+    "adminMenu": [
+        {
+            "path": "admin\/regions\/continents",
+            "translation": "HCRegions::regions_continents.page_title",
+            "icon": "fa-globe",
+            "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list"
+        }
     ],
-    "adminMenu":
-    [
-    ],
-    "acl":
-    {
-        "permissions" :
-        [
+    "acl": {
+        "permissions": [
+            {
+                "name": "admin.regions.continents",
+                "controller": "interactivesolutions\\honeycombregions\\app\\http\\controllers\\regions\\HCContinentsController",
+                "actions": [
+                    "interactivesolutions_honeycomb_regions_regions_continents_list"
+                ]
+            }
         ],
-        "rolesActions" :
-        [
-        ]
+        "rolesActions": {
+            "project-admin": [
+                "interactivesolutions_honeycomb_regions_regions_continents_list"
+            ]
+        }
     }
 }
