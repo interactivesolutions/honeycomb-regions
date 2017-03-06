@@ -64,12 +64,12 @@ class HCMunicipalitiesController extends HCBaseController
         ];
     }
 
-    
-
     /**
-     * @return mixed
+     * Creating data query
+     *
+     * @return $this|mixed
      */
-    public function listData()
+    private function createQuery()
     {
         $with = [];
         $select = HCMunicipalities::getFillableFields();
@@ -88,6 +88,16 @@ class HCMunicipalitiesController extends HCBaseController
 
         // ordering data
         $list = $this->orderData($list, $select);
+
+        return $list;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function listData()
+    {
+        $list = $this->createQuery();
 
         return $list->paginate($this->recordsPerPage)->toArray();
     }
@@ -128,6 +138,19 @@ class HCMunicipalitiesController extends HCBaseController
         array_set($data, 'record.translation_key', array_get($_data, 'translation_key'));
 
         return $data;
+    }
+
+    /**
+     * Searching data
+     */
+    public function search ()
+    {
+        if (!request('q'))
+            return [];
+
+        $list = $this->createQuery();
+
+        return $list->get();
     }
 
     /**
