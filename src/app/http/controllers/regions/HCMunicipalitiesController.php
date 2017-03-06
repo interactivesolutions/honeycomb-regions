@@ -96,7 +96,7 @@ class HCMunicipalitiesController extends HCBaseController
      * Creating data list
      * @return mixed
      */
-    public function listData()
+    public function pageData()
     {
         return $this->createQuery()->paginate($this->recordsPerPage);
     }
@@ -110,6 +110,15 @@ class HCMunicipalitiesController extends HCBaseController
         if (!request('q'))
             return [];
 
+        return $this->createQuery()->get();
+    }
+
+    /**
+     * Creating data list
+     * @return mixed
+     */
+    public function list()
+    {
         return $this->createQuery()->get();
     }
 

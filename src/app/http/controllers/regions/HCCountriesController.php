@@ -135,7 +135,9 @@ class HCCountriesController extends HCBaseController
         if (!request('q'))
             return [];
 
-        return $this->createQuery(array_forget(HCCountries::getFillableFields(), 'geo_data'))->get();
+        $select = HCCountries::getFillableFields();
+
+        return $this->createQuery(array_forget($select, 'geo_data'))->get();
     }
 
     /**
