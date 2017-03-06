@@ -69,7 +69,6 @@ class HCCountriesController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCRegions::regions_countries.flag_id'),
             ]
-
         ];
     }
 
@@ -90,12 +89,15 @@ class HCCountriesController extends HCBaseController
     /**
      * Creating data query
      *
+     * @param array $select
      * @return mixed
      */
-    public function createQuery()
+    public function createQuery(array $select = null)
     {
         $with = [];
-        $select = HCCountries::getFillableFields();
+
+        if ($select == null)
+            $select = HCCountries::getFillableFields();
 
         $list = HCCountries::with($with)->select($select)
             // add filters
@@ -133,7 +135,7 @@ class HCCountriesController extends HCBaseController
         if (!request('q'))
             return [];
 
-        return $this->createQuery()->get();
+        return $this->createQuery(array_forget(HCCountries::getFillableFields(), 'geo_data'))->get();
     }
 
     /**
