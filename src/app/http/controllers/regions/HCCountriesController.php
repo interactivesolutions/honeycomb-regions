@@ -88,9 +88,11 @@ class HCCountriesController extends HCBaseController
     }
 
     /**
+     * Creating data query
+     *
      * @return mixed
      */
-    public function listData()
+    public function createQuery()
     {
         $with = [];
         $select = HCCountries::getFillableFields();
@@ -110,7 +112,28 @@ class HCCountriesController extends HCBaseController
         // ordering data
         $list = $this->orderData($list, $select);
 
-        return $list->paginate($this->recordsPerPage)->toArray();
+        return $list;
+    }
+
+    /**
+     * Creating data list
+     * @return mixed
+     */
+    public function listData()
+    {
+        return $this->createQuery()->paginate($this->recordsPerPage);
+    }
+
+    /**
+     * Creating data list based on search
+     * @return mixed
+     */
+    public function search()
+    {
+        if (!request('q'))
+            return [];
+
+        return $this->createQuery()->get();
     }
 
     /**

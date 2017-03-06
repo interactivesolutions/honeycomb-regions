@@ -93,13 +93,24 @@ class HCMunicipalitiesController extends HCBaseController
     }
 
     /**
+     * Creating data list
      * @return mixed
      */
     public function listData()
     {
-        $list = $this->createQuery();
+        return $this->createQuery()->paginate($this->recordsPerPage);
+    }
 
-        return $list->paginate($this->recordsPerPage)->toArray();
+    /**
+     * Creating data list based on search
+     * @return mixed
+     */
+    public function search()
+    {
+        if (!request('q'))
+            return [];
+
+        return $this->createQuery()->get();
     }
 
     /**
@@ -138,19 +149,6 @@ class HCMunicipalitiesController extends HCBaseController
         array_set($data, 'record.translation_key', array_get($_data, 'translation_key'));
 
         return $data;
-    }
-
-    /**
-     * Searching data
-     */
-    public function search ()
-    {
-        if (!request('q'))
-            return [];
-
-        $list = $this->createQuery();
-
-        return $list->get();
     }
 
     /**
