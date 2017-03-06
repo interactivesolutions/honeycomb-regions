@@ -7,24 +7,28 @@
         "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCMunicipalitiesForm"
     },
     "adminMenu": [
-        {
-            "path": "admin\/regions\/continents",
-            "translation": "HCRegions::regions_continents.page_title",
-            "icon": "fa-globe",
-            "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list"
-        },
-        {
+      {
+        "path": "admin\/regions\/continents",
+        "translation": "HCRegions::regions.page_title",
+        "listTranslation": "HCRegions::regions_continents.page_title",
+        "icon": "fa-globe",
+        "listIcon": "fa-flag",
+        "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list",
+        "children": [
+          {
             "path": "admin\/regions\/countries",
             "translation": "HCRegions::regions_countries.page_title",
             "icon": "fa-map-o",
             "aclPermission": "interactivesolutions_honeycomb_regions_regions_countries_list"
-        },
-        {
+          },
+          {
             "path": "admin\/regions\/municipalities",
             "translation": "HCRegions::regions_municipalities.page_title",
             "icon": "fa-globe",
             "aclPermission": "interactivesolutions_honeycomb_regions_regions_municipalities_list"
-        }
+          }
+        ]
+      }
     ],
     "acl": {
         "permissions": [
