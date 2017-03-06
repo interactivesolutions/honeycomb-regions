@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCCountries;
+use interactivesolutions\honeycombregions\app\models\regions\HCCountriesLanguagesConnections;
 use interactivesolutions\honeycombregions\app\validators\regions\HCCountriesValidator;
 
 class HCCountriesController extends HCBaseController
@@ -52,7 +53,7 @@ class HCCountriesController extends HCBaseController
                 "type"  => "text",
                 "label" => trans('HCRegions::regions_countries.official_name'),
             ],
-            'translation'   => [
+            'translation'       => [
                 "type"  => "text",
                 "label" => trans('HCRegions::regions_countries.translation'),
             ],
@@ -81,10 +82,7 @@ class HCCountriesController extends HCBaseController
     protected function __update(string $id)
     {
         $record = HCCountries::findOrFail($id);
-
-        $data = $this->getInputData();
-
-        $record->update(array_get($data, 'record'));
+        $record->languages()->sync(array_get($this->getInputData(), 'languages'));
 
         return $this->getSingleRecord($record->id);
     }
@@ -164,7 +162,7 @@ class HCCountriesController extends HCBaseController
      */
     public function getSingleRecord(string $id)
     {
-        $with = [];
+        $with = ['languages'];
 
         $select = HCCountries::getFillableFields();
 

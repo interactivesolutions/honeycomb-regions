@@ -3,6 +3,7 @@
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
 use interactivesolutions\honeycombcore\models\HCModel;
+use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 
 class HCCountries extends HCModel
 {
@@ -42,6 +43,16 @@ class HCCountries extends HCModel
     public function getTranslationAttribute()
     {
         return trans($this->translation_key);
+    }
+
+    /**
+     * List of languages assigned to the country
+     *
+     * @return mixed
+     */
+    public function languages()
+    {
+        return $this->belongsToMany(HCLanguages::class, HCCountriesLanguagesConnections::getTableName(), 'country_id', 'language_id')->select('id');
     }
 
 }
