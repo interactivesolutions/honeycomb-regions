@@ -29,11 +29,17 @@ class HCMunicipalitiesForm
             ],
             'structure'  => [
                 [
-                    "type"            => "singleLine",
+                    "type"            => "dropDownList",
                     "fieldID"         => "country_id",
-                    "label"           => trans("HCRegions::regions_municipalities.country_id"),
+                    "label"           => trans ("HCRegions::regions_municipalities.country_id"),
                     "required"        => 1,
                     "requiredVisible" => 1,
+                    "search"          => [
+                        "maximumSelectionLength" => 1,
+                        "minimumSelectionLength" => 1,
+                        "url"                    => route ('admin.api.regions.countries.search'),
+                        "showNodes"              => ["common_name"]
+                    ],
                 ], [
                     "type"            => "singleLine",
                     "fieldID"         => "name",
