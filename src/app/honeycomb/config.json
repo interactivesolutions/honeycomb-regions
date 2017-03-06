@@ -3,7 +3,8 @@
         "serviceProviderNameSpace": "HCRegions"
     },
     "formData": {
-        "regions-countries": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCountriesForm"
+        "regions-countries": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCountriesForm",
+        "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCMunicipalitiesForm"
     },
     "adminMenu": [
         {
@@ -17,6 +18,12 @@
             "translation": "HCRegions::regions_countries.page_title",
             "icon": "fa-map-o",
             "aclPermission": "interactivesolutions_honeycomb_regions_regions_countries_list"
+        },
+        {
+            "path": "admin\/regions\/municipalities",
+            "translation": "HCRegions::regions_municipalities.page_title",
+            "icon": "fa-globe",
+            "aclPermission": "interactivesolutions_honeycomb_regions_regions_municipalities_list"
         }
     ],
     "acl": {
@@ -35,13 +42,21 @@
                     "interactivesolutions_honeycomb_regions_regions_countries_list",
                     "interactivesolutions_honeycomb_regions_regions_countries_update"
                 ]
+            },
+            {
+                "name": "admin.regions.municipalities",
+                "controller": "interactivesolutions\\honeycombregions\\app\\http\\controllers\\regions\\HCMunicipalitiesController",
+                "actions": [
+                    "interactivesolutions_honeycomb_regions_regions_municipalities_list"
+                ]
             }
         ],
         "rolesActions": {
             "project-admin": [
                 "interactivesolutions_honeycomb_regions_regions_continents_list",
                 "interactivesolutions_honeycomb_regions_regions_countries_list",
-                "interactivesolutions_honeycomb_regions_regions_countries_update"
+                "interactivesolutions_honeycomb_regions_regions_countries_update",
+                "interactivesolutions_honeycomb_regions_regions_municipalities_list"
             ]
         }
     }
