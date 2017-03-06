@@ -37,7 +37,8 @@ class HCCitiesForm
                     "search"          => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
-                        "url"                    => route ('admin.api.regions.municipalities.search')
+                        "url"                    => route ('admin.api.regions.countries.search'),
+                        "showNodes"              => ["common_name"]
                     ],
                 ]
             ],

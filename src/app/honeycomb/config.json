@@ -4,7 +4,7 @@
     },
     "formData": {
         "regions-countries": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCountriesForm",
-        "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCitiesForm"
+        "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCMunicipalitiesForm"
     },
     "adminMenu": [
         {
