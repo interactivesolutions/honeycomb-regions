@@ -67,11 +67,7 @@ class HCCountriesController extends HCBaseController
             'flag_id'           => [
                 "type"  => "text",
                 "label" => trans('HCRegions::regions_countries.flag_id'),
-            ],
-            'geo_data'          => [
-                "type"  => "text",
-                "label" => trans('HCRegions::regions_countries.geo_data'),
-            ],
+            ]
 
         ];
     }
