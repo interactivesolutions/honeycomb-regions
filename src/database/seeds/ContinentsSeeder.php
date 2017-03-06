@@ -9,8 +9,8 @@ class ContinentsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
      * @return void
+     * @throws \Exception
      */
     public function run()
     {
@@ -36,7 +36,7 @@ class ContinentsSeeder extends Seeder
         } catch (\Exception $e)
         {
             DB::rollback();
-            //TODO throw exception
+            throw new \Exception($e);
         }
 
         DB::commit();
