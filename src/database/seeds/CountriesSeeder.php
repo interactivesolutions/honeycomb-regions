@@ -5,6 +5,9 @@ use DB;
 use Illuminate\Database\Seeder;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 use interactivesolutions\honeycombregions\app\models\regions\HCCountries;
+use interactivesolutions\honeycombresources\app\http\controllers\HCUploadController;
+use interactivesolutions\honeycombresources\app\models\HCResources;
+use File;
 
 class CountriesSeeder extends Seeder
 {
@@ -17,6 +20,7 @@ class CountriesSeeder extends Seeder
     {
         $countryIDs = getRinvexCountryIDs();
         $translations = [];
+        $countries = [];
 
         foreach ($countryIDs as $id) {
             $country = country($id);
@@ -32,17 +36,30 @@ class CountriesSeeder extends Seeder
                 $translations[$languageCode][$id] = $value['common'];
             }
 
+            $flagLocation = base_path('/vendor/rinvex/country/resources/flags/' . strtolower($country->getIsoAlpha2()) . '.svg');
+            $flagID = null;
+
+            if (file_exists($flagLocation)) {
+                $flagID = 'flag-' . strtolower($country->getIsoAlpha2());
+
+                if (!HCResources::find($flagID))
+                {
+                    $flag = new HCUploadController();
+                    $flag->downloadResource($flagLocation, true, $flagID, 'image/svg+xml');
+                }
+            }
+
             $countries[] =
                 [
                     'id'                => $id,
                     'region_id'         => strtolower(array_keys($country->get('geo.continent'))[0]),
                     'common_name'       => $country->getName(),
                     'official_name'     => $country->getOfficialName(),
-                    'translation_key'   => 'HCRegions::country_names.' . createTranslationKey($id), //TODO update key
+                    'translation_key'   => 'HCRegions::country_names.' . createTranslationKey($id),
                     'iso_3166_1_alpha2' => strtolower($country->getIsoAlpha2()),
                     'iso_3166_1_alpha3' => strtolower($country->getIsoAlpha3()),
-                    'flag_id'           => null, //TODO upload file to HCResource pacakge
-                    'geo_data'          => '', //TODO file with geo data
+                    'flag_id'           => $flagID,
+                    'geo_data'          => File::get(base_path('/vendor/rinvex/country/resources/geodata/' . $id) . '.json'),
                     'created_at'        => date('Y-m-d H:i:s'),
                     'updated_at'        => date('Y-m-d H:i:s')
                 ];
@@ -51,11 +68,15 @@ class CountriesSeeder extends Seeder
         DB::beginTransaction();
 
         try {
-            $countries = collect($countries);
-            $chunks = $countries->chunk(100);
 
-            foreach ($chunks as $chunk)
-                HCCountries::insert($chunk->toArray());
+            foreach ($countries as $country) {
+                $existing = HCCountries::find($country['id']);
+
+                if ($existing)
+                    $existing->update($country);
+                else
+                    HCCountries::create($country);
+            }
 
         } catch (\Exception $e) {
 

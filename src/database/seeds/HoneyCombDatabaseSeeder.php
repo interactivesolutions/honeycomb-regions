@@ -13,5 +13,6 @@ class HoneyCombDatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ContinentsSeeder::class);
+        $this->call(CountriesSeeder::class);
     }
 }
