@@ -121,7 +121,7 @@ class HCCountriesController extends HCBaseController
      * Creating data list
      * @return mixed
      */
-    public function listData()
+    public function pageData()
     {
         return $this->createQuery()->paginate($this->recordsPerPage);
     }
@@ -135,9 +135,18 @@ class HCCountriesController extends HCBaseController
         if (!request('q'))
             return [];
 
-        $select = HCCountries::getFillableFields();
+        //TODO set limit to start search
 
-        return $this->createQuery(array_forget($select, 'geo_data'))->get();
+        return $this->list();
+    }
+
+    /**
+     * Creating data list
+     * @return mixed
+     */
+    public function list()
+    {
+        return $this->createQuery()->get();
     }
 
     /**
