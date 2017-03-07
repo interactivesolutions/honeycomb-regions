@@ -15,7 +15,7 @@ class CreateHcRegionsMunicipalitiesTable extends Migration {
 		Schema::create('hc_regions_municipalities', function(Blueprint $table)
 		{
 			$table->integer('count', true);
-            $table->string('id', 36)->unique('id_UNIQUE');
+			$table->string('id', 36)->unique('id');
 			$table->timestamps();
 			$table->softDeletes();
 			$table->string('country_id', 36)->index('fk_hc_regions_municipalities_hc_regions_countries1_idx');

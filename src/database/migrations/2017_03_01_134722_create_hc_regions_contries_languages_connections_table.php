@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateHcRegionsCountriesLanguagesConnectionsTable extends Migration {
+class CreateHcRegionsContriesLanguagesConnectionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateHcRegionsCountriesLanguagesConnectionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('hc_regions_countries_languages_connections', function(Blueprint $table)
+		Schema::create('hc_regions_contries_languages_connections', function(Blueprint $table)
 		{
 			$table->integer('count', true);
 			$table->timestamps();
@@ -30,7 +30,7 @@ class CreateHcRegionsCountriesLanguagesConnectionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('hc_regions_countries_languages_connections');
+		Schema::drop('hc_regions_contries_languages_connections');
 	}
 
 }
