@@ -4,31 +4,39 @@
     },
     "formData": {
         "regions-countries": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCountriesForm",
-        "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCMunicipalitiesForm"
+        "regions-municipalities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCMunicipalitiesForm",
+        "regions-cities": "interactivesolutions\\honeycombregions\\app\\forms\\regions\\HCCitiesForm"
     },
     "adminMenu": [
-      {
-        "path": "admin\/regions\/continents",
-        "translation": "HCRegions::regions.page_title",
-        "listTranslation": "HCRegions::regions_continents.page_title",
-        "icon": "fa-globe",
-        "listIcon": "fa-flag",
-        "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list",
-        "children": [
-          {
-            "path": "admin\/regions\/countries",
-            "translation": "HCRegions::regions_countries.page_title",
-            "icon": "fa-map-o",
-            "aclPermission": "interactivesolutions_honeycomb_regions_regions_countries_list"
-          },
-          {
-            "path": "admin\/regions\/municipalities",
-            "translation": "HCRegions::regions_municipalities.page_title",
+        {
+            "path": "admin\/regions\/continents",
+            "translation": "HCRegions::regions.page_title",
+            "listTranslation": "HCRegions::regions_continents.page_title",
             "icon": "fa-globe",
-            "aclPermission": "interactivesolutions_honeycomb_regions_regions_municipalities_list"
-          }
-        ]
-      }
+            "listIcon": "fa-flag",
+            "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list",
+            "children": [
+                {
+                    "path": "admin\/regions\/countries",
+                    "translation": "HCRegions::regions_countries.page_title",
+                    "icon": "fa-map-o",
+                    "aclPermission": "interactivesolutions_honeycomb_regions_regions_countries_list"
+                },
+                {
+                    "path": "admin\/regions\/municipalities",
+                    "translation": "HCRegions::regions_municipalities.page_title",
+                    "icon": "fa-globe",
+                    "aclPermission": "interactivesolutions_honeycomb_regions_regions_municipalities_list"
+                },
+                {
+                    "path": "admin\/regions\/cities",
+                    "translation": "HCRegions::regions_cities.page_title",
+                    "icon": "fa-building-o",
+                    "aclPermission": "interactivesolutions_honeycomb_regions_regions_cities_list"
+                }
+            ]
+        }
+
     ],
     "acl": {
         "permissions": [
@@ -53,6 +61,17 @@
                 "actions": [
                     "interactivesolutions_honeycomb_regions_regions_municipalities_list"
                 ]
+            },
+            {
+                "name": "admin.regions.cities",
+                "controller": "interactivesolutions\\honeycombregions\\app\\http\\controllers\\regions\\HCCitiesController",
+                "actions": [
+                    "interactivesolutions_honeycomb_regions_regions_cities_list",
+                    "interactivesolutions_honeycomb_regions_regions_cities_create",
+                    "interactivesolutions_honeycomb_regions_regions_cities_update",
+                    "interactivesolutions_honeycomb_regions_regions_cities_delete",
+                    "interactivesolutions_honeycomb_regions_regions_cities_force_delete"
+                ]
             }
         ],
         "rolesActions": {
@@ -60,7 +79,11 @@
                 "interactivesolutions_honeycomb_regions_regions_continents_list",
                 "interactivesolutions_honeycomb_regions_regions_countries_list",
                 "interactivesolutions_honeycomb_regions_regions_countries_update",
-                "interactivesolutions_honeycomb_regions_regions_municipalities_list"
+                "interactivesolutions_honeycomb_regions_regions_municipalities_list",
+                "interactivesolutions_honeycomb_regions_regions_cities_list",
+                "interactivesolutions_honeycomb_regions_regions_cities_create",
+                "interactivesolutions_honeycomb_regions_regions_cities_update",
+                "interactivesolutions_honeycomb_regions_regions_cities_delete"
             ]
         }
     }

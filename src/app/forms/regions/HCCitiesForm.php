@@ -5,7 +5,7 @@ namespace interactivesolutions\honeycombregions\app\forms\regions;
 class HCCitiesForm
 {
     // name of the form
-    protected $formID = 'regions-municipalities';
+    protected $formID = 'regions-cities';
 
     // is form multi language
     protected $multiLanguage = 0;
@@ -16,14 +16,14 @@ class HCCitiesForm
      * @param bool $edit
      * @return array
      */
-    public function createForm (bool $edit = false)
+    public function createForm(bool $edit = false)
     {
         $form = [
-            'storageURL' => route ('admin.api.regions.municipalities'),
+            'storageURL' => route('admin.api.regions.cities'),
             'buttons'    => [
                 [
                     "class" => "col-centered",
-                    "label" => trans ('HCCoreUI::core.button.submit'),
+                    "label" => trans('HCCoreUI::core.button.submit'),
                     "type"  => "submit",
                 ],
             ],
@@ -40,7 +40,40 @@ class HCCitiesForm
                         "url"                    => route ('admin.api.regions.countries.search'),
                         "showNodes"              => ["common_name"]
                     ],
-                ]
+                ],
+                [
+                    "type"            => "dropDownList",
+                    "fieldID"         => "municipality_id",
+                    "label"           => trans ("HCRegions::regions.municipality"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "search"          => [
+                        "maximumSelectionLength" => 1,
+                        "minimumSelectionLength" => 1,
+                        "showNodes"              => ["translation"]
+                    ],
+                    "dependencies"    => [
+                        [
+                            "field_id"    => "country_id",
+                            "options_url" => route ('admin.api.regions.municipalities.list'),
+                        ],
+                    ],
+                ],
+                [
+                    "type"            => "singleLine",
+                    "fieldID"         => "name",
+                    "label"           => trans ("HCRegions::regions_municipalities.name"),
+                    "required"        => 1,
+                    "requiredVisible" => 1,
+                    "dependencies"    => [
+                        [
+                            "field_id" => "country_id",
+                        ],
+                        [
+                            "field_id" => "municipality_id",
+                        ],
+                    ],
+                ],
             ],
         ];
 
