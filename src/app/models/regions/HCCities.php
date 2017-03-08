@@ -20,4 +20,16 @@ class HCCities extends HCUuidModel
      */
     protected $fillable = ['id', 'municipality_id', 'name', 'translation_key'];
 
+    protected $appends = ['country_id'];
+
+    /**
+     * Getting country id attribute
+     *
+     * @return mixed
+     */
+    public function getCountryIdAttribute()
+    {
+        return $this->belongsTo(HCMunicipalities::class, 'municipality_id', 'id')->getResults()->country_id;
+    }
+    
 }
