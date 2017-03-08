@@ -2,6 +2,8 @@
 
 namespace interactivesolutions\honeycombregions\app\forms\regions;
 
+use interactivesolutions\honeycombregions\app\models\regions\HCCountries;
+
 class HCCityPartsForm
 {
     // name of the form
@@ -34,11 +36,11 @@ class HCCityPartsForm
                     "label"           => trans ("HCRegions::regions_municipalities.country_id"),
                     "required"        => 1,
                     "requiredVisible" => 1,
+                    "options"         => HCCountries::select('id', 'translation_key')->get(),
                     "search"          => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
-                        "url"                    => route ('admin.api.regions.countries.search'),
-                        "showNodes"              => ["common_name"]
+                        "showNodes"              => ["translation"]
                     ],
                 ],
                 [
