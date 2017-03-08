@@ -55,15 +55,21 @@ class HCRegionsServiceProvider extends ServiceProvider
      */
     private function registerPublishElements()
     {
-        // Publish your migrations
-        $this->publishes([
-            __DIR__ . '/../../database/migrations/' => database_path('/migrations'),
-        ], 'migrations');
+        $directory = __DIR__ . '/../../database/migrations/';
 
-        /*// Publishing assets
-        $this->publishes([
-            __DIR__ . '/../public' => public_path('honeycomb'),
-        ], 'public');*/
+        // Publish your migrations
+        if (file_exists ($directory))
+            $this->publishes ([
+                __DIR__ . '/../../database/migrations/' => database_path ('/migrations'),
+            ], 'migrations');
+
+        $directory = __DIR__ . '/../public';
+
+        // Publishing assets
+        if (file_exists ($directory))
+            $this->publishes ([
+                __DIR__ . '/../public' => public_path ('honeycomb'),
+            ], 'public');
     }
 
     /**
@@ -71,9 +77,12 @@ class HCRegionsServiceProvider extends ServiceProvider
      */
     private function registerRoutes()
     {
-        \Route::group(['namespace' => $this->namespace], function ($router) {
-            require __DIR__ . '/../../app/honeycomb/routes.php';
-        });
+        $filePath = __DIR__ . '/../../app/honeycomb/routes.php';
+
+        if ($filePath)
+            \Route::group (['namespace' => $this->namespace], function ($router) use ($filePath) {
+                require $filePath;
+            });
     }
 }
 
