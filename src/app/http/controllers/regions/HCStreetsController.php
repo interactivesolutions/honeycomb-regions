@@ -1,8 +1,7 @@
 <?php namespace interactivesolutions\honeycombregions\app\http\controllers\regions;
 
-use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCStreets;
 use interactivesolutions\honeycombregions\app\validators\regions\HCStreetsValidator;
@@ -93,11 +92,13 @@ class HCStreetsController extends HCBaseController
      */
     protected function __update(string $id)
     {
-        $record = HCStreets::findOrFail($id);
-
         $data = $this->getInputData();
 
+        $record = HCStreets::findOrFail($id);
+
+
         $record->update(array_get($data, 'record'));
+        $record->city_parts()->sync(array_get($data, 'city_parts'));
 
         return $this->getSingleRecord($record->id);
     }

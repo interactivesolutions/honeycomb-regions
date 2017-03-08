@@ -59,6 +59,6 @@ class HCStreets extends HCUuidModel
      */
     public function city_parts()
     {
-        return $this->belongsToMany(HCCityParts::class, HCCityPartsStreetConnections::getTableName(), 'city_part_id', 'street_id');
+        return $this->belongsToMany(HCCityParts::class, HCCityPartsStreetConnections::getTableName(), 'street_id', 'city_part_id');
     }
 }
