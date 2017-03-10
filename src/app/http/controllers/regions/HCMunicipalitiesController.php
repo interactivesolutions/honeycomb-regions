@@ -69,7 +69,7 @@ class HCMunicipalitiesController extends HCBaseController
      *
      * @return $this|mixed
      */
-    private function createQuery()
+    public function createQuery()
     {
         $with = [];
         $select = HCMunicipalities::getFillableFields();
