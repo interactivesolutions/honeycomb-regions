@@ -17,5 +17,5 @@ return [
     'country_id'        => 'Country id',
     'language_id'       => 'Language id',
     'official'          => 'Official',
-
+    'region'            => 'Continent',
 ];
