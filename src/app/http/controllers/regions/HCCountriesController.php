@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use interactivesolutions\honeycombregions\app\models\regions\HCContinents;
 use interactivesolutions\honeycombregions\app\models\regions\HCCountries;
 use interactivesolutions\honeycombregions\app\models\regions\HCCountriesLanguagesConnections;
 use interactivesolutions\honeycombregions\app\validators\regions\HCCountriesValidator;
@@ -29,6 +30,7 @@ class HCCountriesController extends HCBaseController
             $config['actions'][] = 'update';
 
         $config['actions'][] = 'search';
+        $config['filters'] = $this->getFilters ();
 
         return view ('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -176,5 +178,27 @@ class HCCountriesController extends HCBaseController
             ->firstOrFail ();
 
         return $record;
+    }
+
+    /**
+     * Generating filters required for admin view
+     *
+     * @return array
+     */
+    private function getFilters ()
+    {
+        $filters = [];
+
+        $regions = [
+            'fieldID'   => 'region_id',
+            'type'      => 'dropDownList',
+            'label'     => trans ('HCRegions::regions_countries.region'),
+            'options'   => HCContinents::all ()->toArray(),
+            'showNodes' => ['name'],
+        ];
+
+        $filters[] = addAllOptionToDropDownList ($regions);
+
+        return $filters;
     }
 }
