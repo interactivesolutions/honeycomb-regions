@@ -87,11 +87,11 @@ class CountriesSeeder extends Seeder
         DB::commit();
 
         foreach ($translations as $key => $value) {
-            if (!file_exists(__DIR__ . './../../resources/lang/' . $key))
-                mkdir(__DIR__ . './../../resources/lang/' . $key);
+            if (!file_exists(__DIR__ . '/../../resources/lang/' . $key))
+                mkdir(__DIR__ . '/../../resources/lang/' . $key);
 
             $content = str_replace(');', '];', "<?php \r\n return " . str_replace('array (', '[', var_export($value, true)) . ';');
-            file_put_contents(__DIR__ . './../../resources/lang/' . $key . '/country_names.php', $content);
+            file_put_contents(__DIR__ . '/../../resources/lang/' . $key . '/country_names.php', $content);
         }
     }
 }
