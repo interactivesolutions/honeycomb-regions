@@ -1,6 +1,7 @@
 <?php
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.cities.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.cities.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
@@ -26,7 +27,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 });
 
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.continents.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.continents.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
@@ -42,7 +44,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 });
 
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.countries.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.countries.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
@@ -67,7 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 });
 
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.municipalities.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.municipalities.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
@@ -93,7 +97,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 });
 
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.parts.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.parts.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
@@ -119,7 +124,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 });
 
 
-//./packages/interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.streets.php
+//interactivesolutions/honeycomb-regions/src/app/routes/routes.regions.streets.php
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function ()
 {
