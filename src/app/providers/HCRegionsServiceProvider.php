@@ -6,11 +6,8 @@ use interactivesolutions\honeycombcore\providers\HCBaseServiceProvider;
 
 class HCRegionsServiceProvider extends HCBaseServiceProvider
 {
-    /**
-     * Register commands
-     *
-     * @var array
-     */
+    protected $homeDirectory = __DIR__;
+
     protected $commands = [];
 
     protected $namespace = 'interactivesolutions\honeycombregions\app\http\controllers';
