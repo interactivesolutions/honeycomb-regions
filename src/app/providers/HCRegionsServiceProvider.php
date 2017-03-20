@@ -11,6 +11,9 @@ class HCRegionsServiceProvider extends HCBaseServiceProvider
     protected $commands = [];
 
     protected $namespace = 'interactivesolutions\honeycombregions\app\http\controllers';
+
+    public $serviceProviderNameSpace = 'HCRegions';
+
 }
 
 
