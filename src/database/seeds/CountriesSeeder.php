@@ -44,7 +44,7 @@ class CountriesSeeder extends Seeder
 
                 if (!HCResources::find($flagID))
                 {
-                    $flag = new HCUploadController();
+                    $flag = new HCUploadController(true);
                     $flag->downloadResource($flagLocation, true, $flagID, 'image/svg+xml');
                 }
             }
