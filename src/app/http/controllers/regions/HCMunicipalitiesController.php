@@ -13,29 +13,29 @@ class HCMunicipalitiesController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCRegions::regions_municipalities.page_title'),
-            'listURL'     => route('admin.api.regions.municipalities'),
-            'newFormUrl'  => route('admin.api.form-manager', ['regions-municipalities-new']),
+            'title' => trans('HCRegions::regions_municipalities.page_title'),
+            'listURL' => route('admin.api.regions.municipalities'),
+            'newFormUrl' => route('admin.api.form-manager', ['regions-municipalities-new']),
             'editFormUrl' => route('admin.api.form-manager', ['regions-municipalities-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_create'))
+        $config['actions'][] = 'search';
+
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_update')) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_delete'))
             $config['actions'][] = 'delete';
-
-        $config['actions'][] = 'search';
 
         return view('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -48,16 +48,16 @@ class HCMunicipalitiesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
-            'country_id'      => [
-                "type"  => "text",
+            'country_id' => [
+                "type" => "text",
                 "label" => trans('HCRegions::regions_municipalities.country_id'),
             ],
-            'name'            => [
-                "type"  => "text",
+            'name' => [
+                "type" => "text",
                 "label" => trans('HCRegions::regions_municipalities.name'),
             ],
             'translation' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCRegions::regions_municipalities.translation'),
             ],
 
@@ -69,7 +69,7 @@ class HCMunicipalitiesController extends HCBaseController
      *
      * @return $this|mixed
      */
-    public function createQuery()
+    protected function createQuery()
     {
         $with = [];
         $select = HCMunicipalities::getFillableFields();
@@ -84,7 +84,7 @@ class HCMunicipalitiesController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -102,18 +102,6 @@ class HCMunicipalitiesController extends HCBaseController
     }
 
     /**
-     * Creating data list based on search
-     * @return mixed
-     */
-    public function search()
-    {
-        if (!request('q'))
-            return [];
-
-        return $this->createQuery()->get();
-    }
-
-    /**
      * Creating data list
      * @return mixed
      */
@@ -127,17 +115,15 @@ class HCMunicipalitiesController extends HCBaseController
      * @param $list
      * @return mixed
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $list)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $parameter = request()->input('q');
 
-            $list = $list->where(function ($query) use ($parameter) {
-                $query->where('country_id', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('name', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
-            });
-        }
+        $list = $list->where(function ($query) use ($parameter) {
+            $query->where('country_id', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('name', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
+        });
 
         return $list;
     }
@@ -166,7 +152,7 @@ class HCMunicipalitiesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = [];
 

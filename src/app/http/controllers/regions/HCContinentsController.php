@@ -13,15 +13,15 @@ class HCContinentsController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCRegions::regions_continents.page_title'),
-            'listURL'     => route('admin.api.regions.continents'),
-            'newFormUrl'  => route('admin.api.form-manager', ['regions-continents-new']),
+            'title' => trans('HCRegions::regions_continents.page_title'),
+            'listURL' => route('admin.api.regions.continents'),
+            'newFormUrl' => route('admin.api.form-manager', ['regions-continents-new']),
             'editFormUrl' => route('admin.api.form-manager', ['regions-continents-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
         $config['actions'][] = 'search';
@@ -38,7 +38,7 @@ class HCContinentsController extends HCBaseController
     {
         return [
             'name' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCRegions::regions_continents.name'),
             ],
         ];
@@ -47,7 +47,7 @@ class HCContinentsController extends HCBaseController
     /**
      * @return mixed
      */
-    public function createQuery()
+    protected function createQuery()
     {
         $with = [];
         $select = HCContinents::getFillableFields();
@@ -62,7 +62,7 @@ class HCContinentsController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -71,21 +71,18 @@ class HCContinentsController extends HCBaseController
     }
 
 
-
     /**
      * List search elements
      * @param $list
      * @return mixed
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $list)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $parameter = request()->input('q');
 
-            $list = $list->where(function ($query) use ($parameter) {
-                $query->where('translation_key', 'LIKE', '%' . $parameter . '%');
-            });
-        }
+        $list = $list->where(function ($query) use ($parameter) {
+            $query->where('translation_key', 'LIKE', '%' . $parameter . '%');
+        });
 
         return $list;
     }
@@ -96,7 +93,7 @@ class HCContinentsController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = [];
 

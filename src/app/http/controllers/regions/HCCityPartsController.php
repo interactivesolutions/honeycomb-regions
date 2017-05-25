@@ -15,29 +15,30 @@ class HCCityPartsController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCRegions::regions_parts.page_title'),
-            'listURL'     => route('admin.api.regions.parts'),
-            'newFormUrl'  => route('admin.api.form-manager', ['regions-parts-new']),
+            'title' => trans('HCRegions::regions_parts.page_title'),
+            'listURL' => route('admin.api.regions.parts'),
+            'newFormUrl' => route('admin.api.form-manager', ['regions-parts-new']),
             'editFormUrl' => route('admin.api.form-manager', ['regions-parts-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_parts_create'))
+        $config['actions'][] = 'search';
+
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_parts_update')) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_parts_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_delete'))
             $config['actions'][] = 'delete';
 
-        $config['actions'][] = 'search';
 
         return view('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -51,16 +52,16 @@ class HCCityPartsController extends HCBaseController
     {
         return [
             //TODO get name from builder object
-            'city.name'            => [
-                "type"  => "text",
+            'city.name' => [
+                "type" => "text",
                 "label" => trans('HCRegions::regions_parts.city_id'),
             ],
-            'name'            => [
-                "type"  => "text",
+            'name' => [
+                "type" => "text",
                 "label" => trans('HCRegions::regions_parts.name'),
             ],
             'translation_key' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCRegions::regions_parts.translation_key'),
             ],
 
@@ -73,14 +74,14 @@ class HCCityPartsController extends HCBaseController
      * @param array|null $data
      * @return mixed
      */
-    protected function __create(array $data = null)
+    protected function __apiStore(array $data = null)
     {
         if (is_null($data))
             $data = $this->getInputData();
 
         $record = HCCityParts::create(array_get($data, 'record'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -89,7 +90,7 @@ class HCCityPartsController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    protected function __update(string $id)
+    protected function __apiUpdate(string $id)
     {
         $record = HCCityParts::findOrFail($id);
 
@@ -97,7 +98,7 @@ class HCCityPartsController extends HCBaseController
 
         $record->update(array_get($data, 'record'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -106,11 +107,11 @@ class HCCityPartsController extends HCBaseController
      * @param string $id
      * @return mixed
      */
-    protected function __updateStrict(string $id)
+    protected function __apiUpdateStrict(string $id)
     {
         HCCityParts::where('id', $id)->update(request()->all());
 
-        return $this->getSingleRecord($id);
+        return $this->apiShow($id);
     }
 
     /**
@@ -119,7 +120,7 @@ class HCCityPartsController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __delete(array $list)
+    protected function __apiDestroy(array $list)
     {
         HCCityParts::destroy($list);
     }
@@ -130,7 +131,7 @@ class HCCityPartsController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __forceDelete(array $list)
+    protected function __apiForceDelete(array $list)
     {
         HCCityParts::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
@@ -141,7 +142,7 @@ class HCCityPartsController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __restore(array $list)
+    protected function __apiRestore(array $list)
     {
         HCCityParts::whereIn('id', $list)->restore();
     }
@@ -152,7 +153,7 @@ class HCCityPartsController extends HCBaseController
      * @param array $select
      * @return mixed
      */
-    public function createQuery(array $select = null)
+    protected function createQuery(array $select = null)
     {
         $with = ['city'];
 
@@ -169,7 +170,7 @@ class HCCityPartsController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -177,23 +178,20 @@ class HCCityPartsController extends HCBaseController
     }
 
 
-
     /**
      * List search elements
      * @param $list
      * @return mixed
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $list)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $parameter = request()->input('q');
 
-            $list = $list->where(function ($query) use ($parameter) {
-                $query->where('city_id', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('name', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
-            });
-        }
+        $list = $list->where(function ($query) use ($parameter) {
+            $query->where('city_id', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('name', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
+        });
 
         return $list;
     }
@@ -222,7 +220,7 @@ class HCCityPartsController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = ['city'];
 

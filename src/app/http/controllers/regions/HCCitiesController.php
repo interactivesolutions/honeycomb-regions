@@ -13,29 +13,29 @@ class HCCitiesController extends HCBaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminView()
+    public function adminIndex()
     {
         $config = [
-            'title'       => trans('HCRegions::regions_cities.page_title'),
-            'listURL'     => route('admin.api.regions.cities'),
-            'newFormUrl'  => route('admin.api.form-manager', ['regions-cities-new']),
+            'title' => trans('HCRegions::regions_cities.page_title'),
+            'listURL' => route('admin.api.regions.cities'),
+            'newFormUrl' => route('admin.api.form-manager', ['regions-cities-new']),
             'editFormUrl' => route('admin.api.form-manager', ['regions-cities-edit']),
-            'imagesUrl'   => route('resource.get', ['/']),
-            'headers'     => $this->getAdminListHeader(),
+            'imagesUrl' => route('resource.get', ['/']),
+            'headers' => $this->getAdminListHeader(),
         ];
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_cities_create'))
+        $config['actions'][] = 'search';
+
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_cities_create'))
             $config['actions'][] = 'new';
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_cities_update')) {
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_cities_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if ($this->user()->can('interactivesolutions_honeycomb_regions_regions_cities_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_cities_delete'))
             $config['actions'][] = 'delete';
-
-        $config['actions'][] = 'search';
 
         return view('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -49,15 +49,15 @@ class HCCitiesController extends HCBaseController
     {
         return [
             'municipality_id' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCRegions::regions_cities.municipality_id'),
             ],
-            'name'            => [
-                "type"  => "text",
+            'name' => [
+                "type" => "text",
                 "label" => trans('HCRegions::regions_cities.name'),
             ],
             'translation_key' => [
-                "type"  => "text",
+                "type" => "text",
                 "label" => trans('HCRegions::regions_cities.translation_key'),
             ],
 
@@ -70,14 +70,14 @@ class HCCitiesController extends HCBaseController
      * @param array|null $data
      * @return mixed
      */
-    protected function __create(array $data = null)
+    protected function __apiStore(array $data = null)
     {
         if (is_null($data))
             $data = $this->getInputData();
 
         $record = HCCities::create(array_get($data, 'record'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -86,7 +86,7 @@ class HCCitiesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    protected function __update(string $id)
+    protected function __apiUpdate(string $id)
     {
         $record = HCCities::findOrFail($id);
 
@@ -94,7 +94,7 @@ class HCCitiesController extends HCBaseController
 
         $record->update(array_get($data, 'record'));
 
-        return $this->getSingleRecord($record->id);
+        return $this->apiShow($record->id);
     }
 
     /**
@@ -103,11 +103,11 @@ class HCCitiesController extends HCBaseController
      * @param string $id
      * @return mixed
      */
-    protected function __updateStrict(string $id)
+    protected function __apiUpdateStrict(string $id)
     {
         HCCities::where('id', $id)->update(request()->all());
 
-        return $this->getSingleRecord($id);
+        return $this->apiShow($id);
     }
 
     /**
@@ -116,7 +116,7 @@ class HCCitiesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __delete(array $list)
+    protected function __apiDestroy(array $list)
     {
         HCCities::destroy($list);
     }
@@ -127,7 +127,7 @@ class HCCitiesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __forceDelete(array $list)
+    protected function __apiForceDelete(array $list)
     {
         HCCities::onlyTrashed()->whereIn('id', $list)->forceDelete();
     }
@@ -138,7 +138,7 @@ class HCCitiesController extends HCBaseController
      * @param $list
      * @return mixed|void
      */
-    protected function __restore(array $list)
+    protected function __apiRestore(array $list)
     {
         HCCities::whereIn('id', $list)->restore();
     }
@@ -149,7 +149,7 @@ class HCCitiesController extends HCBaseController
      * @param array $select
      * @return mixed
      */
-    public function createQuery(array $select = null)
+    protected function createQuery(array $select = null)
     {
         $with = [];
 
@@ -166,7 +166,7 @@ class HCCitiesController extends HCBaseController
         $list = $this->checkForDeleted($list);
 
         // add search items
-        $list = $this->listSearch($list);
+        $list = $this->search($list);
 
         // ordering data
         $list = $this->orderData($list, $select);
@@ -174,24 +174,20 @@ class HCCitiesController extends HCBaseController
         return $list;
     }
 
-
-
     /**
      * List search elements
      * @param $list
      * @return mixed
      */
-    protected function listSearch(Builder $list)
+    protected function searchQuery(Builder $list)
     {
-        if (request()->has('q')) {
-            $parameter = request()->input('q');
+        $parameter = request()->input('q');
 
-            $list = $list->where(function ($query) use ($parameter) {
-                $query->where('municipality_id', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('name', 'LIKE', '%' . $parameter . '%')
-                    ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
-            });
-        }
+        $list = $list->where(function ($query) use ($parameter) {
+            $query->where('municipality_id', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('name', 'LIKE', '%' . $parameter . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%');
+        });
 
         return $list;
     }
@@ -220,7 +216,7 @@ class HCCitiesController extends HCBaseController
      * @param $id
      * @return mixed
      */
-    public function getSingleRecord(string $id)
+    public function apiShow(string $id)
     {
         $with = [];
 
