@@ -121,25 +121,22 @@ class HCCountriesController extends HCBaseController
 
     /**
      * List search elements
-     * @param $list
-     * @return mixed
+     * @param Builder $query
+     * @param string $phrase
+     * @return Builder
      */
-    protected function searchQuery(Builder $list)
+    protected function searchQuery(Builder $query, string $phrase)
     {
-        $parameter = request()->input('q');
-
-        $list = $list->where(function ($query) use ($parameter) {
-            $query->where('region_id', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('common_name', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('official_name', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('translation_key', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('iso_3166_1_alpha2', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('iso_3166_1_alpha3', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('flag_id', 'LIKE', '%' . $parameter . '%')
-                ->orWhere('geo_data', 'LIKE', '%' . $parameter . '%');
+        return $query->where (function (Builder $query) use ($phrase) {
+            $query->where ('region_id', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('common_name', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('official_name', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('translation_key', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('iso_3166_1_alpha2', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('iso_3166_1_alpha3', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('flag_id', 'LIKE', '%' . $phrase . '%')
+                  ->orWhere ('geo_data', 'LIKE', '%' . $phrase . '%');
         });
-
-        return $list;
     }
 
     /**

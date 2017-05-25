@@ -70,21 +70,17 @@ class HCContinentsController extends HCBaseController
         return $list;
     }
 
-
     /**
      * List search elements
-     * @param $list
-     * @return mixed
+     * @param Builder $query
+     * @param string $phrase
+     * @return Builder
      */
-    protected function searchQuery(Builder $list)
+    protected function searchQuery(Builder $query, string $phrase)
     {
-        $parameter = request()->input('q');
-
-        $list = $list->where(function ($query) use ($parameter) {
-            $query->where('translation_key', 'LIKE', '%' . $parameter . '%');
+        return $query->where (function (Builder $query) use ($phrase) {
+            $query->where('translation_key', 'LIKE', '%' . $phrase . '%');
         });
-
-        return $list;
     }
 
     /**
