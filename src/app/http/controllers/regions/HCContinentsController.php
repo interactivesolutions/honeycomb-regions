@@ -26,7 +26,7 @@ class HCContinentsController extends HCBaseController
 
         $config['actions'][] = 'search';
 
-        return view('HCCoreUI::admin.content.list', ['config' => $config]);
+        return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
 
     /**

@@ -32,7 +32,7 @@ class HCCountriesController extends HCBaseController
         $config['actions'][] = 'search';
         $config['filters'] = $this->getFilters();
 
-        return view('HCCoreUI::admin.content.list', ['config' => $config]);
+        return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
 
     /**

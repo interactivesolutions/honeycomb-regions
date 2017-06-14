@@ -40,7 +40,7 @@ class HCCityPartsController extends HCBaseController
             $config['actions'][] = 'delete';
 
 
-        return view('HCCoreUI::admin.content.list', ['config' => $config]);
+        return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
 
     /**
