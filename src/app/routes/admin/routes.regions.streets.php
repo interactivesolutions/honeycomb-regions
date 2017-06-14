@@ -10,6 +10,7 @@ Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth'
         Route::post('/', ['middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_create'], 'uses' => 'regions\\HCStreetsController@apiStore']);
         Route::delete('/', ['middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_delete'], 'uses' => 'regions\\HCStreetsController@apiDestroy']);
 
+        Route::get('list', ['as' => 'admin.api.regions.streets.list', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_list'], 'uses' => 'regions\\HCStreetsController@apiIndex']);
         Route::post('restore', ['as' => 'admin.api.regions.streets.restore', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_update'], 'uses' => 'regions\\HCStreetsController@apiRestore']);
         Route::post('merge', ['as' => 'admin.api.regions.streets.merge', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_create', 'acl:interactivesolutions_honeycomb_regions_regions_streets_update'], 'uses' => 'regions\\HCStreetsController@apiMerge']);
         Route::delete('force', ['as' => 'admin.api.regions.streets.force.multi', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_streets_force_delete'], 'uses' => 'regions\\HCStreetsController@apiForceDelete']);
