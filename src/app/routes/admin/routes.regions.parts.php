@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function ()
 {
-    Route::get('regions/parts', ['as' => 'admin.regions.parts', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_parts_list'], 'uses' => 'regions\\HCCityPartsController@adminIndex']);
+    Route::get('regions/parts', ['as' => 'admin.regions.pats.index', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_parts_list'], 'uses' => 'regions\\HCCityPartsController@adminIndex']);
 
     Route::group(['prefix' => 'api/regions/parts'], function ()
     {

@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => config('hc.admin_url'), 'middleware' => ['web', 'auth']], function ()
 {
-    Route::get('regions/cities', ['as' => 'admin.regions.cities', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_cities_list'], 'uses' => 'regions\\HCCitiesController@adminIndex']);
+    Route::get('regions/cities', ['as' => 'admin.regions.cities.index', 'middleware' => ['acl:interactivesolutions_honeycomb_regions_regions_cities_list'], 'uses' => 'regions\\HCCitiesController@adminIndex']);
 
     Route::group(['prefix' => 'api/regions/cities'], function ()
     {
