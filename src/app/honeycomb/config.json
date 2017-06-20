@@ -11,9 +11,8 @@
   },
   "adminMenu": [
     {
-      "path": "admin/regions/continents",
       "route": "admin.regions.continents.index",
-      "parent": "admin/hc",
+      "parent": "admin.index",
       "translation": "HCRegions::regions.page_title",
       "listTranslation": "HCRegions::regions_continents.page_title",
       "icon": "fa-globe",
@@ -21,41 +20,36 @@
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_continents_list"
     },
     {
-      "path": "admin/regions/countries",
       "route": "admin.regions.countries.index",
-      "parent": "admin/regions/continents",
+      "parent": "admin.regions.continents.index",
       "translation": "HCRegions::regions_countries.page_title",
       "icon": "fa-map-o",
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_countries_list"
     },
     {
-      "path": "admin/regions/municipalities",
       "route": "admin.regions.municipalities.index",
-      "parent": "admin/regions/continents",
+      "parent": "admin.regions.continents.index",
       "translation": "HCRegions::regions_municipalities.page_title",
       "icon": "fa-globe",
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_municipalities_list"
     },
     {
-      "path": "admin/regions/cities",
       "route": "admin.regions.cities.index",
-      "parent": "admin/regions/continents",
+      "parent": "admin.regions.continents.index",
       "translation": "HCRegions::regions_cities.page_title",
       "icon": "fa-building-o",
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_cities_list"
     },
     {
-      "path": "admin/regions/parts",
       "route": "admin.regions.pats.index",
-      "parent": "admin/regions/continents",
+      "parent": "admin.regions.continents.index",
       "translation": "HCRegions::regions_parts.page_title",
       "icon": "fa-circle-thin",
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_parts_list"
     },
     {
-      "path": "admin/regions/streets",
       "route": "admin.regions.streets.index",
-      "parent": "admin/regions/continents",
+      "parent": "admin.regions.continents.index",
       "translation": "HCRegions::regions_streets.page_title",
       "icon": "fa-road",
       "aclPermission": "interactivesolutions_honeycomb_regions_regions_streets_list"
