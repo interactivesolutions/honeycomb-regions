@@ -118,33 +118,39 @@ class HCCityPartsController extends HCBaseController
      * Delete records table
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiDestroy(array $list)
     {
         HCCityParts::destroy($list);
+
+        return hcSuccess();
     }
 
     /**
      * Delete records table
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiForceDelete(array $list)
     {
         HCCityParts::onlyTrashed()->whereIn('id', $list)->forceDelete();
+
+        return hcSuccess();
     }
 
     /**
      * Restore multiple records
      *
      * @param $list
-     * @return mixed|void
+     * @return mixed
      */
     protected function __apiRestore(array $list)
     {
         HCCityParts::whereIn('id', $list)->restore();
+
+        return hcSuccess();
     }
 
     /**
