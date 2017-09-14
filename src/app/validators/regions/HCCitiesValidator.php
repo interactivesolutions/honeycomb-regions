@@ -9,11 +9,11 @@ class HCCitiesValidator extends HCCoreFormValidator
      *
      * @return array
      */
-    protected function rules()
+    protected function rules ()
     {
         return [
-            'municipality_id' => 'required',
-'name' => 'required',
+            'country_id' => 'required',
+            'name'       => 'required',
 
         ];
     }

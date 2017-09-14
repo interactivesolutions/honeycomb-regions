@@ -47,8 +47,6 @@ class HCCitiesForm
                     "type"            => "dropDownList",
                     "fieldID"         => "municipality_id",
                     "label"           => trans ("HCRegions::regions.municipality"),
-                    "required"        => 1,
-                    "requiredVisible" => 1,
                     "search"          => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
@@ -70,9 +68,6 @@ class HCCitiesForm
                     "dependencies"    => [
                         [
                             "field_id" => "country_id",
-                        ],
-                        [
-                            "field_id" => "municipality_id",
                         ],
                     ],
                 ],
