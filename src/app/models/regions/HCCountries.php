@@ -26,7 +26,7 @@ class HCCountries extends HCModel
      *
      * @var array
      */
-    protected $hidden = ['translation_key'];
+    protected $hidden = ['translation_key', 'geo_data'];
 
     /**
      * The attributes which will be added automatically
