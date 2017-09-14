@@ -48,6 +48,10 @@ class HCCitiesController extends HCBaseController
     public function getAdminListHeader()
     {
         return [
+            'country_id' => [
+                "type" => "text",
+                "label" => trans('HCRegions::regions_cities.country_id'),
+            ],
             'municipality_id' => [
                 "type" => "text",
                 "label" => trans('HCRegions::regions_cities.municipality_id'),
@@ -206,11 +210,12 @@ class HCCitiesController extends HCBaseController
 
         $_data = request()->all();
 
+        array_set($data, 'record.country_id', array_get($_data, 'country_id'));
         array_set($data, 'record.municipality_id', array_get($_data, 'municipality_id'));
         array_set($data, 'record.name', array_get($_data, 'name'));
         array_set($data, 'record.translation_key', array_get($_data, 'translation_key'));
 
-        return $data;
+        return makeEmptyNullable($data);
     }
 
     /**
