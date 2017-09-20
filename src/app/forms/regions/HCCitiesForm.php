@@ -20,6 +20,8 @@ class HCCitiesForm
      */
     public function createForm(bool $edit = false)
     {
+        $country = request('country_id');
+
         $form = [
             'storageURL' => route('admin.api.regions.cities'),
             'buttons'    => [
@@ -42,6 +44,7 @@ class HCCitiesForm
                         "minimumSelectionLength" => 1,
                         "showNodes"              => ["translation"]
                     ],
+                    "value"           => $country
                 ],
                 [
                     "type"            => "dropDownList",
