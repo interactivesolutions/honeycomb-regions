@@ -22,41 +22,44 @@ class HCCountriesForm
     {
         $form = [
             'storageURL' => route('admin.api.regions.countries'),
-            'buttons'    => [
+            'buttons' => [
                 [
                     "class" => "col-centered",
                     "label" => trans('HCTranslations::core.buttons.submit'),
-                    "type"  => "submit",
+                    "type" => "submit",
                 ],
             ],
-            'structure'  => [
+            'structure' => [
                 [
-                    "type"     => "singleLine",
-                    "fieldID"  => "common_name",
-                    "label"    => trans("HCRegions::regions_countries.common_name"),
+                    "type" => "singleLine",
+                    "fieldID" => "common_name",
+                    "label" => trans("HCRegions::regions_countries.common_name"),
                     "readonly" => 1,
-                ], [
-                    "type"     => "singleLine",
-                    "fieldID"  => "official_name",
-                    "label"    => trans("HCRegions::regions_countries.official_name"),
+                ],
+                [
+                    "type" => "singleLine",
+                    "fieldID" => "official_name",
+                    "label" => trans("HCRegions::regions_countries.official_name"),
                     "readonly" => 1,
-                ]
+                ],
             ],
         ];
 
         $form['structure'][] = [
-            "type"    => "dropDownList",
+            "type" => "dropDownList",
             "fieldID" => "languages",
-            "label"   => trans("HCRegions::regions_countries.languages"),
-            "search"  => [],
-            "options" => HCLanguages::select('id', 'language')->get()
+            "label" => trans("HCRegions::regions_countries.languages"),
+            "search" => [],
+            "options" => HCLanguages::select('id', 'language')->get(),
         ];
 
-        if ($this->multiLanguage)
+        if ($this->multiLanguage) {
             $form['availableLanguages'] = [];
+        }
 
-        if (!$edit)
+        if (!$edit) {
             return $form;
+        }
 
         //Make changes to edit form if needed
         // $form['structure'][] = [];

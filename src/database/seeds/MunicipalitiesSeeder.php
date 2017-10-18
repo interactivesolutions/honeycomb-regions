@@ -21,7 +21,7 @@ class MunicipalitiesSeeder extends Seeder
         $countryIDs = getRinvexCountryIDs();
         $municipalities = [];
         $translations = [];
-        $enTranslation= [];
+        $enTranslation = [];
 
         foreach ($countryIDs as $id) {
             $divisions = country($id)->getDivisions();
@@ -31,10 +31,10 @@ class MunicipalitiesSeeder extends Seeder
                     if ($division['name'] && $division['name'] != '') {
                         $municipalities[] =
                             [
-                                'id'              => strtolower($id . '-' . $key),
-                                'country_id'      => $id,
-                                'name'            => $division['name'],
-                                'translation_key' => 'HCRegions::municipalities_names.' . createTranslationKey($id . '.' . $key)
+                                'id' => strtolower($id . '-' . $key),
+                                'country_id' => $id,
+                                'name' => $division['name'],
+                                'translation_key' => 'HCRegions::municipalities_names.' . createTranslationKey($id . '.' . $key),
                             ];
                     }
                     $translations[$id][strtolower($id . '.' . $key)] = $division['name'];
@@ -49,10 +49,11 @@ class MunicipalitiesSeeder extends Seeder
             foreach ($municipalities as $municipality) {
                 $existing = HCMunicipalities::find($municipality['id']);
 
-                if ($existing)
+                if ($existing) {
                     $existing->update($municipality);
-                else
+                } else {
                     HCMunicipalities::create($municipality);
+                }
             }
 
         } catch (\Exception $e) {
@@ -63,15 +64,18 @@ class MunicipalitiesSeeder extends Seeder
 
         DB::commit();
 
-        foreach ($translations as $key => $value){
-            foreach ($value as $key => $value)
+        foreach ($translations as $key => $value) {
+            foreach ($value as $key => $value) {
                 $enTranslation[$key] = $value;
+            }
         }
 
-        if (!file_exists(__DIR__ . '/../../resources/lang/en'))
+        if (!file_exists(__DIR__ . '/../../resources/lang/en')) {
             mkdir(__DIR__ . '/../../resources/lang/en');
+        }
 
-        $content = str_replace(');', '];', "<?php \r\n return " . str_replace('array (', '[', var_export($enTranslation, true)) . ';');
+        $content = str_replace(');', '];',
+            "<?php \r\n return " . str_replace('array (', '[', var_export($enTranslation, true)) . ';');
         file_put_contents(__DIR__ . '/../../resources/lang/en/municipalities_names.php', $content);
 
         /*foreach ($translations as $key => $value) {

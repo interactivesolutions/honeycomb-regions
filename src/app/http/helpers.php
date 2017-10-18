@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Filesystem\Filesystem;
-use interactivesolutions\honeycombcore\commands\HCCommand;
-use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
+use Illuminate\Support\Facades\File;
 
 if (!function_exists('getRinvexCountryIDs')) {
     function getRinvexCountryIDs()
@@ -14,8 +12,9 @@ if (!function_exists('getRinvexCountryIDs')) {
         foreach ($files as $file) {
             $id = substr($file->getFilename(), 0, -5);
 
-            if (strlen($id) == 2)
+            if (strlen($id) == 2) {
                 $countries[] = $id;
+            }
         }
 
         sort($countries);

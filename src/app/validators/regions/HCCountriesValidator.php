@@ -1,6 +1,7 @@
 <?php namespace interactivesolutions\honeycombregions\app\validators\regions;
 
-use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
+
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCCoreFormValidator;
 
 class HCCountriesValidator extends HCCoreFormValidator
 {

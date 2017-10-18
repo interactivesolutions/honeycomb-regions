@@ -2,7 +2,8 @@
 
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
+
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 
 class HCStreets extends HCUuidModel
 {
@@ -59,6 +60,7 @@ class HCStreets extends HCUuidModel
      */
     public function city_parts()
     {
-        return $this->belongsToMany(HCCityParts::class, HCCityPartsStreetConnections::getTableName(), 'street_id', 'city_part_id');
+        return $this->belongsToMany(HCCityParts::class, HCCityPartsStreetConnections::getTableName(), 'street_id',
+            'city_part_id');
     }
 }

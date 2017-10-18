@@ -2,7 +2,7 @@
 
 use DB;
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCStreets;
 use interactivesolutions\honeycombregions\app\validators\regions\HCStreetsValidator;
 
@@ -29,16 +29,18 @@ class HCStreetsController extends HCBaseController
 
         $config['actions'][] = 'search';
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_streets_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_streets_create')) {
             $config['actions'][] = 'new';
+        }
 
         if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_streets_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_streets_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_streets_delete')) {
             $config['actions'][] = 'delete';
+        }
 
         return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -75,8 +77,9 @@ class HCStreetsController extends HCBaseController
      */
     protected function __apiStore(array $data = null)
     {
-        if (is_null($data))
+        if (is_null($data)) {
             $data = $this->getInputData();
+        }
 
         $record = HCStreets::create(array_get($data, 'record'));
         $record->city_parts()->sync(array_get($data, 'city_parts'));
@@ -165,12 +168,13 @@ class HCStreetsController extends HCBaseController
     {
         $with = [];
 
-        if ($select == null)
+        if ($select == null) {
             $select = HCStreets::getFillableFields();
+        }
 
         $list = HCStreets::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -212,10 +216,10 @@ class HCStreetsController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('city_id', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('name', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
+                ->orWhere('name', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
         });
     }
 

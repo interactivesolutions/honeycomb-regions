@@ -1,4 +1,5 @@
 <?php
+
 namespace interactivesolutions\honeycombregions\database\seeds;
 
 use DB;
@@ -17,24 +18,26 @@ class ContinentsSeeder extends Seeder
         $ids = getRinvexCountryIDs();
         $continents = [];
 
-        foreach ($ids as $id)
+        foreach ($ids as $id) {
             $continents = array_merge($continents, country($id)->getGeodata()['continent']);
+        }
 
         $continents = array_unique($continents);
 
         DB::beginTransaction();
 
-        try
-        {
-            foreach ($continents as $key => $value)
-            {
+        try {
+            foreach ($continents as $key => $value) {
                 $record = HCContinents::find($key);
 
-                if (!$record)
-                    HCContinents::create(['id' => $key, 'translation_key' => 'HCRegions::regions_continents.continent.' . createTranslationKey($key)]);
+                if (!$record) {
+                    HCContinents::create([
+                        'id' => $key,
+                        'translation_key' => 'HCRegions::regions_continents.continent.' . createTranslationKey($key),
+                    ]);
+                }
             }
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e);
         }

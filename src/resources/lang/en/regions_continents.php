@@ -2,12 +2,12 @@
 
 return [
     'page_title' => 'HCContinents',
-    'count'      => 'Count',
-    'id'         => 'Id',
+    'count' => 'Count',
+    'id' => 'Id',
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
     'deleted_at' => 'Deleted at',
-    'name'       => 'Name',
+    'name' => 'Name',
 
     'continent' =>
         [
@@ -18,5 +18,5 @@ return [
             "na" => "North America",
             "sa" => "South America",
             "an" => "Antarctica",
-        ]
+        ],
 ];

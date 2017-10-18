@@ -1,7 +1,7 @@
 <?php namespace interactivesolutions\honeycombregions\app\http\controllers\regions;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCMunicipalities;
 use interactivesolutions\honeycombregions\app\validators\regions\HCMunicipalitiesValidator;
 
@@ -26,16 +26,18 @@ class HCMunicipalitiesController extends HCBaseController
 
         $config['actions'][] = 'search';
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_create')) {
             $config['actions'][] = 'new';
+        }
 
         if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_municipalities_delete')) {
             $config['actions'][] = 'delete';
+        }
 
         return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
     }
@@ -76,7 +78,7 @@ class HCMunicipalitiesController extends HCBaseController
 
         $list = HCMunicipalities::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -118,10 +120,10 @@ class HCMunicipalitiesController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
-            $query->where ('country_id', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('name', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
+        return $query->where(function(Builder $query) use ($phrase) {
+            $query->where('country_id', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('name', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
         });
     }
 

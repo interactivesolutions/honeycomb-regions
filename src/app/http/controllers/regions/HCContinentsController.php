@@ -1,9 +1,8 @@
 <?php namespace interactivesolutions\honeycombregions\app\http\controllers\regions;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCContinents;
-use interactivesolutions\honeycombregions\app\validators\regions\HCContinentsValidator;
 
 class HCContinentsController extends HCBaseController
 {
@@ -54,7 +53,7 @@ class HCContinentsController extends HCBaseController
 
         $list = HCContinents::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -78,7 +77,7 @@ class HCContinentsController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('translation_key', 'LIKE', '%' . $phrase . '%');
         });
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace interactivesolutions\honeycombregions\database\seeds;
 
 use DB;
@@ -27,11 +28,13 @@ class CountriesSeeder extends Seeder
 
             foreach (country($id)->getTranslations() as $key => $value) {
                 $languageCode = HCLanguages::where('iso_639_2', $key)->first()['iso_639_1'];
-                if (!$languageCode)
+                if (!$languageCode) {
                     continue;
+                }
 
-                if (!isset($translations[$languageCode]))
+                if (!isset($translations[$languageCode])) {
                     $translations[$languageCode] = [];
+                }
 
                 $translations[$languageCode][$id] = $value['common'];
             }
@@ -42,8 +45,7 @@ class CountriesSeeder extends Seeder
             if (file_exists($flagLocation)) {
                 $flagID = 'flag-' . strtolower($country->getIsoAlpha2());
 
-                if (!HCResources::find($flagID))
-                {
+                if (!HCResources::find($flagID)) {
                     $flag = new HCUploadController(true);
                     $flag->downloadResource($flagLocation, true, $flagID, 'image/svg+xml');
                 }
@@ -51,17 +53,17 @@ class CountriesSeeder extends Seeder
 
             $countries[] =
                 [
-                    'id'                => $id,
-                    'region_id'         => strtolower(array_keys($country->get('geo.continent'))[0]),
-                    'common_name'       => $country->getName(),
-                    'official_name'     => $country->getOfficialName(),
-                    'translation_key'   => 'HCRegions::country_names.' . createTranslationKey($id),
+                    'id' => $id,
+                    'region_id' => strtolower(array_keys($country->get('geo.continent'))[0]),
+                    'common_name' => $country->getName(),
+                    'official_name' => $country->getOfficialName(),
+                    'translation_key' => 'HCRegions::country_names.' . createTranslationKey($id),
                     'iso_3166_1_alpha2' => strtolower($country->getIsoAlpha2()),
                     'iso_3166_1_alpha3' => strtolower($country->getIsoAlpha3()),
-                    'flag_id'           => $flagID,
-                    'geo_data'          => File::get(base_path('/vendor/rinvex/country/resources/geodata/' . $id) . '.json'),
-                    'created_at'        => date('Y-m-d H:i:s'),
-                    'updated_at'        => date('Y-m-d H:i:s')
+                    'flag_id' => $flagID,
+                    'geo_data' => File::get(base_path('/vendor/rinvex/country/resources/geodata/' . $id) . '.json'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ];
         }
 
@@ -72,10 +74,11 @@ class CountriesSeeder extends Seeder
             foreach ($countries as $country) {
                 $existing = HCCountries::find($country['id']);
 
-                if ($existing)
+                if ($existing) {
                     $existing->update($country);
-                else
+                } else {
                     HCCountries::create($country);
+                }
             }
 
         } catch (\Exception $e) {
@@ -87,10 +90,12 @@ class CountriesSeeder extends Seeder
         DB::commit();
 
         foreach ($translations as $key => $value) {
-            if (!file_exists(__DIR__ . '/../../resources/lang/' . $key))
+            if (!file_exists(__DIR__ . '/../../resources/lang/' . $key)) {
                 mkdir(__DIR__ . '/../../resources/lang/' . $key);
+            }
 
-            $content = str_replace(');', '];', "<?php \r\n return " . str_replace('array (', '[', var_export($value, true)) . ';');
+            $content = str_replace(');', '];',
+                "<?php \r\n return " . str_replace('array (', '[', var_export($value, true)) . ';');
             file_put_contents(__DIR__ . '/../../resources/lang/' . $key . '/country_names.php', $content);
         }
     }

@@ -2,7 +2,8 @@
 
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
-use interactivesolutions\honeycombcore\models\HCUuidModel;
+
+use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 
 class HCCityParts extends HCUuidModel
 {

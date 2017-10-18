@@ -22,70 +22,70 @@ class HCCityPartsForm
     {
         $form = [
             'storageURL' => route('admin.api.regions.parts'),
-            'buttons'    => [
+            'buttons' => [
                 [
                     "class" => "col-centered",
                     "label" => trans('HCTranslations::core.buttons.submit'),
-                    "type"  => "submit",
+                    "type" => "submit",
                 ],
             ],
-            'structure'  => [
+            'structure' => [
                 [
-                    "type"            => "dropDownList",
-                    "fieldID"         => "country_id",
-                    "label"           => trans ("HCRegions::regions_municipalities.country_id"),
-                    "required"        => 1,
+                    "type" => "dropDownList",
+                    "fieldID" => "country_id",
+                    "label" => trans("HCRegions::regions_municipalities.country_id"),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                    "options"         => HCCountries::select('id', 'translation_key')->get(),
-                    "search"          => [
+                    "options" => HCCountries::select('id', 'translation_key')->get(),
+                    "search" => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
-                        "showNodes"              => ["translation"]
+                        "showNodes" => ["translation"],
                     ],
                 ],
                 [
-                    "type"            => "dropDownList",
-                    "fieldID"         => "municipality_id",
-                    "label"           => trans ("HCRegions::regions.municipality"),
-                    "required"        => 1,
+                    "type" => "dropDownList",
+                    "fieldID" => "municipality_id",
+                    "label" => trans("HCRegions::regions.municipality"),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                    "search"          => [
+                    "search" => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
-                        "showNodes"              => ["translation"]
+                        "showNodes" => ["translation"],
                     ],
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
-                            "field_id"    => "country_id",
-                            "options_url" => route ('admin.api.regions.municipalities.list'),
+                            "field_id" => "country_id",
+                            "options_url" => route('admin.api.regions.municipalities.list'),
                         ],
                     ],
                 ],
                 [
-                    "type"            => "dropDownList",
-                    "fieldID"         => "city_id",
-                    "label"           => trans ("HCRegions::regions.cities"),
-                    "required"        => 1,
+                    "type" => "dropDownList",
+                    "fieldID" => "city_id",
+                    "label" => trans("HCRegions::regions.cities"),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                    "search"          => [
+                    "search" => [
                         "maximumSelectionLength" => 1,
                         "minimumSelectionLength" => 1,
-                        "showNodes"              => ["name"]
+                        "showNodes" => ["name"],
                     ],
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
-                            "field_id"    => "municipality_id",
-                            "options_url" => route ('admin.api.regions.cities.list'),
+                            "field_id" => "municipality_id",
+                            "options_url" => route('admin.api.regions.cities.list'),
                         ],
                     ],
                 ],
                 [
-                    "type"            => "singleLine",
-                    "fieldID"         => "name",
-                    "label"           => trans ("HCRegions::regions_city_parts.name"),
-                    "required"        => 1,
+                    "type" => "singleLine",
+                    "fieldID" => "name",
+                    "label" => trans("HCRegions::regions_city_parts.name"),
+                    "required" => 1,
                     "requiredVisible" => 1,
-                    "dependencies"    => [
+                    "dependencies" => [
                         [
                             "field_id" => "country_id",
                         ],
@@ -100,11 +100,13 @@ class HCCityPartsForm
             ],
         ];
 
-        if ($this->multiLanguage)
-            $form['availableLanguages'] = []; //TOTO implement honeycomb-languages package
+        if ($this->multiLanguage) {
+            $form['availableLanguages'] = [];
+        } //TOTO implement honeycomb-languages package
 
-        if (!$edit)
+        if (!$edit) {
             return $form;
+        }
 
         //Make changes to edit form if needed
         // $form['structure'][] = [];

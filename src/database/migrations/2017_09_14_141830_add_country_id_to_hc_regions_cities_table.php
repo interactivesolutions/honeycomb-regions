@@ -13,7 +13,7 @@ class AddCountryIdToHcRegionsCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('hc_regions_cities', function (Blueprint $table) {
+        Schema::table('hc_regions_cities', function(Blueprint $table) {
             $table->string('country_id', 36)->index('fk_hc_regions_cities_hc_regions_countries1_idx');
         });
     }
@@ -25,7 +25,7 @@ class AddCountryIdToHcRegionsCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('hc_regions_cities', function (Blueprint $table) {
+        Schema::table('hc_regions_cities', function(Blueprint $table) {
             $table->dropColumn('country_id');
         });
     }

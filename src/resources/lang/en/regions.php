@@ -1,5 +1,5 @@
 <?php
 return [
-    'page_title'   => 'HCRegions',
-    'municipality' => 'Municipality'
+    'page_title' => 'HCRegions',
+    'municipality' => 'Municipality',
 ];

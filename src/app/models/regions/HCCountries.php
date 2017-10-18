@@ -2,7 +2,7 @@
 
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
-use interactivesolutions\honeycombcore\models\HCModel;
+use InteractiveSolutions\HoneycombCore\Models\HCModel;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 
 class HCCountries extends HCModel
@@ -19,7 +19,17 @@ class HCCountries extends HCModel
      *
      * @var array
      */
-    protected $fillable = ['id', 'region_id', 'common_name', 'official_name', 'translation_key', 'iso_3166_1_alpha2', 'iso_3166_1_alpha3', 'flag_id', 'geo_data'];
+    protected $fillable = [
+        'id',
+        'region_id',
+        'common_name',
+        'official_name',
+        'translation_key',
+        'iso_3166_1_alpha2',
+        'iso_3166_1_alpha3',
+        'flag_id',
+        'geo_data',
+    ];
 
     /**
      * The attributes that are hidden
@@ -52,7 +62,8 @@ class HCCountries extends HCModel
      */
     public function languages()
     {
-        return $this->belongsToMany(HCLanguages::class, HCCountriesLanguagesConnections::getTableName(), 'country_id', 'language_id')->select('id');
+        return $this->belongsToMany(HCLanguages::class, HCCountriesLanguagesConnections::getTableName(), 'country_id',
+            'language_id')->select('id');
     }
 
 }

@@ -1,10 +1,9 @@
 <?php namespace interactivesolutions\honeycombregions\app\http\controllers\regions;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCContinents;
 use interactivesolutions\honeycombregions\app\models\regions\HCCountries;
-use interactivesolutions\honeycombregions\app\models\regions\HCCountriesLanguagesConnections;
 use interactivesolutions\honeycombregions\app\validators\regions\HCCountriesValidator;
 
 class HCCountriesController extends HCBaseController
@@ -26,8 +25,9 @@ class HCCountriesController extends HCBaseController
             'headers' => $this->getAdminListHeader(),
         ];
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_countries_update'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_countries_update')) {
             $config['actions'][] = 'update';
+        }
 
         $config['actions'][] = 'search';
         $config['filters'] = $this->getFilters();
@@ -49,7 +49,7 @@ class HCCountriesController extends HCBaseController
                 "options" => [
                     "w" => 100,
                     "h" => 100,
-                ]
+                ],
             ],
             'common_name' => [
                 "type" => "text",
@@ -70,15 +70,16 @@ class HCCountriesController extends HCBaseController
             'iso_3166_1_alpha3' => [
                 "type" => "text",
                 "label" => trans('HCRegions::regions_countries.iso_3166_1_alpha3'),
-            ]
+            ],
         ];
     }
 
     /**
      * Updates existing item based on ID
      *
-     * @param $id
+     * @param string $id
      * @return mixed
+     * @throws \Exception
      */
     protected function __apiUpdate(string $id)
     {
@@ -98,12 +99,13 @@ class HCCountriesController extends HCBaseController
     {
         $with = [];
 
-        if ($select == null)
+        if ($select == null) {
             $select = HCCountries::getFillableFields();
+        }
 
         $list = HCCountries::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -127,22 +129,22 @@ class HCCountriesController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
-            $query->where ('region_id', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('common_name', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('official_name', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('translation_key', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('iso_3166_1_alpha2', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('iso_3166_1_alpha3', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('flag_id', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere ('geo_data', 'LIKE', '%' . $phrase . '%');
+        return $query->where(function(Builder $query) use ($phrase) {
+            $query->where('region_id', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('common_name', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('official_name', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('iso_3166_1_alpha2', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('iso_3166_1_alpha3', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('flag_id', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('geo_data', 'LIKE', '%' . $phrase . '%');
         });
     }
 
     /**
      * Getting user data on POST call
-     *
      * @return mixed
+     * @throws \Exception
      */
     protected function getInputData()
     {

@@ -1,6 +1,7 @@
 <?php namespace interactivesolutions\honeycombregions\app\validators\regions;
 
-use interactivesolutions\honeycombcore\http\controllers\HCCoreFormValidator;
+
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCCoreFormValidator;
 
 class HCMunicipalitiesValidator extends HCCoreFormValidator
 {
@@ -13,7 +14,7 @@ class HCMunicipalitiesValidator extends HCCoreFormValidator
     {
         return [
             'country_id' => 'required',
-'name' => 'required',
+            'name' => 'required',
 
         ];
     }

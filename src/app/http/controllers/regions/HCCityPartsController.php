@@ -1,7 +1,7 @@
 <?php namespace interactivesolutions\honeycombregions\app\http\controllers\regions;
 
 use Illuminate\Database\Eloquent\Builder;
-use interactivesolutions\honeycombcore\http\controllers\HCBaseController;
+use InteractiveSolutions\HoneycombCore\Http\Controllers\HCBaseController;
 use interactivesolutions\honeycombregions\app\models\regions\HCCityParts;
 use interactivesolutions\honeycombregions\app\validators\regions\HCCityPartsValidator;
 
@@ -28,16 +28,18 @@ class HCCityPartsController extends HCBaseController
 
         $config['actions'][] = 'search';
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_create'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_create')) {
             $config['actions'][] = 'new';
+        }
 
         if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_update')) {
             $config['actions'][] = 'update';
             $config['actions'][] = 'restore';
         }
 
-        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_delete'))
+        if (auth()->user()->can('interactivesolutions_honeycomb_regions_regions_parts_delete')) {
             $config['actions'][] = 'delete';
+        }
 
 
         return hcview('HCCoreUI::admin.content.list', ['config' => $config]);
@@ -76,8 +78,9 @@ class HCCityPartsController extends HCBaseController
      */
     protected function __apiStore(array $data = null)
     {
-        if (is_null($data))
+        if (is_null($data)) {
             $data = $this->getInputData();
+        }
 
         $record = HCCityParts::create(array_get($data, 'record'));
 
@@ -163,12 +166,13 @@ class HCCityPartsController extends HCBaseController
     {
         $with = ['city'];
 
-        if ($select == null)
+        if ($select == null) {
             $select = HCCityParts::getFillableFields();
+        }
 
         $list = HCCityParts::with($with)->select($select)
             // add filters
-            ->where(function ($query) use ($select) {
+            ->where(function($query) use ($select) {
                 $query = $this->getRequestParameters($query, $select);
             });
 
@@ -180,6 +184,7 @@ class HCCityPartsController extends HCBaseController
 
         // ordering data
         $list = $this->orderData($list, $select);
+
         return $list;
     }
 
@@ -191,10 +196,10 @@ class HCCityPartsController extends HCBaseController
      */
     protected function searchQuery(Builder $query, string $phrase)
     {
-        return $query->where (function (Builder $query) use ($phrase) {
+        return $query->where(function(Builder $query) use ($phrase) {
             $query->where('city_id', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('name', 'LIKE', '%' . $phrase . '%')
-                  ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
+                ->orWhere('name', 'LIKE', '%' . $phrase . '%')
+                ->orWhere('translation_key', 'LIKE', '%' . $phrase . '%');
         });
     }
 
