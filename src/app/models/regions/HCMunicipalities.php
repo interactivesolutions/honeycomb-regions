@@ -4,9 +4,12 @@ namespace interactivesolutions\honeycombregions\app\models\regions;
 
 
 use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
+use interactivesolutions\honeycombregions\app\models\traits\HCCountryTrait;
 
 class HCMunicipalities extends HCUuidModel
 {
+    use HCCountryTrait;
+
     /**
      * The database table used by the model.
      *

@@ -4,9 +4,12 @@ namespace interactivesolutions\honeycombregions\app\models\regions;
 
 
 use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
+use interactivesolutions\honeycombregions\app\models\traits\HCCityTrait;
 
 class HCCityParts extends HCUuidModel
 {
+    use HCCityTrait;
+
     /**
      * The database table used by the model.
      *
@@ -21,21 +24,21 @@ class HCCityParts extends HCUuidModel
      */
     protected $fillable = ['id', 'city_id', 'name', 'translation_key'];
 
+    /**
+     * Appendable attributes
+     *
+     * @var array
+     */
     protected $appends = ['municipality_id', 'country_id', 'city'];
 
-    public function city()
-    {
-        return $city = $this->hasOne(HCCities::class, 'id', 'city_id');
-    }
-
     /**
-     * Getting manucipality id attribute
+     * Getting municipality id attribute
      *
      * @return mixed
      */
     public function getMunicipalityIdAttribute()
     {
-        return $this->belongsTo(HCCities::class, 'city_id', 'id')->getResults()->municipality_id;
+        return $this->city()->getResults()->municipality_id;
     }
 
     /**
@@ -55,6 +58,6 @@ class HCCityParts extends HCUuidModel
      */
     public function getCityAttribute()
     {
-        return $this->belongsTo(HCCities::class, 'city_id', 'id')->getResults()->name;
+        return $this->city()->getResults()->name;
     }
 }
