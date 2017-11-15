@@ -25,8 +25,6 @@ class MakeMunicipalityNullableOnHcRegionsCities extends Migration
      */
     public function down()
     {
-        Schema::table('hc_regions_cities', function(Blueprint $table) {
-            $table->string('municipality_id', 36)->nullable(false)->change();
-        });
+        
     }
 }
