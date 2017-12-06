@@ -194,7 +194,7 @@ class HCCityPartsController extends HCBaseController
      * @param string $phrase
      * @return Builder
      */
-    protected function searchQuery(Builder $query, string $phrase)
+    protected function searchQuery(Builder $query, string $phrase): Builder
     {
         return $query->where(function(Builder $query) use ($phrase) {
             $query->where('city_id', 'LIKE', '%' . $phrase . '%')
@@ -207,6 +207,7 @@ class HCCityPartsController extends HCBaseController
      * Getting user data on POST call
      *
      * @return mixed
+     * @throws \Exception
      */
     protected function getInputData()
     {
