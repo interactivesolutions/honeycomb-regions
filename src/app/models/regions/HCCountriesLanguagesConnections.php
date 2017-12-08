@@ -1,10 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
 
 use InteractiveSolutions\HoneycombCore\Models\HCUuidModel;
 
+/**
+ * interactivesolutions\honeycombregions\app\models\regions\HCCountriesLanguagesConnections
+ *
+ * @mixin \Eloquent
+ */
 class HCCountriesLanguagesConnections extends HCUuidModel
 {
     /**
@@ -19,6 +26,10 @@ class HCCountriesLanguagesConnections extends HCUuidModel
      *
      * @var array
      */
-    protected $fillable = ['country_id', 'language_id', 'official'];
+    protected $fillable = [
+        'country_id',
+        'language_id',
+        'official',
+    ];
 
 }
