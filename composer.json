@@ -27,7 +27,8 @@
         "php": ">=7.1",
         "laravel/framework": "^5.5",
         "rinvex/country": "^3.1",
-        "interactivesolutions/honeycomb-core": "^1.1.0"
+        "interactivesolutions/honeycomb-core": "^1.1.0",
+        "interactivesolutions/honeycomb-languages": "^1.1"
     },
     "require-dev": {
         "brianium/paratest": "^1.0",
