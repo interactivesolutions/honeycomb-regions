@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreateHcRegionsCountriesTable
+ */
 class CreateHcRegionsCountriesTable extends Migration
 {
 
@@ -11,20 +17,22 @@ class CreateHcRegionsCountriesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('hc_regions_countries', function(Blueprint $table) {
+        Schema::create('hc_regions_countries', function (Blueprint $table) {
             $table->integer('count', true);
-            $table->string('id', 36)->unique('id_UNIQUE');
+            $table->string('id', 36)->unique();
             $table->timestamps();
             $table->softDeletes();
-            $table->string('region_id', 36)->index('fk_hc_regions_countries_hc_regions_continents_idx');
+            $table->string('region_id', 36)
+                ->index('fk_hc_regions_countries_hc_regions_continents_idx');
             $table->string('common_name')->nullable();
             $table->string('official_name')->nullable();
             $table->string('translation_key');
             $table->string('iso_3166_1_alpha2', 2);
             $table->string('iso_3166_1_alpha3', 3);
-            $table->string('flag_id', 36)->nullable()->index('fk_hc_regions_countries_hc_resources1_idx');
+            $table->string('flag_id', 36)->nullable()
+                ->index('fk_hc_regions_countries_hc_resources1_idx');
         });
 
         DB::statement("ALTER TABLE `hc_regions_countries` ADD `geo_data` LONGBLOB NULL DEFAULT NULL");
@@ -35,7 +43,7 @@ class CreateHcRegionsCountriesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('hc_regions_countries');
     }
