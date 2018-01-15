@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace interactivesolutions\honeycombregions\app\Repositories;
 
-
 use InteractiveSolutions\HoneycombCore\Repositories\Repository;
 use interactivesolutions\honeycombregions\app\models\regions\HCCities;
 
@@ -14,7 +13,6 @@ use interactivesolutions\honeycombregions\app\models\regions\HCCities;
  */
 class HCCityRepository extends Repository
 {
-
     /**
      * @return string
      */

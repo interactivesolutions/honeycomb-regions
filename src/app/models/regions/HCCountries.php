@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types =1);
+declare(strict_types = 1);
 
 namespace interactivesolutions\honeycombregions\app\models\regions;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use InteractiveSolutions\HoneycombCore\Models\HCModel;
 use interactivesolutions\honeycomblanguages\app\models\HCLanguages;
 
@@ -51,7 +52,6 @@ class HCCountries extends HCModel
      * @var string
      */
     protected $table = 'hc_regions_countries';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -68,14 +68,12 @@ class HCCountries extends HCModel
         'flag_id',
         'geo_data',
     ];
-
     /**
      * The attributes that are hidden
      *
      * @var array
      */
     protected $hidden = ['translation_key', 'geo_data'];
-
     /**
      * The attributes which will be added automatically
      *
@@ -96,12 +94,15 @@ class HCCountries extends HCModel
     /**
      * List of languages assigned to the country
      *
-     * @return mixed
+     * @return BelongsToMany
      */
-    public function languages()
+    public function languages(): BelongsToMany
     {
-        return $this->belongsToMany(HCLanguages::class, HCCountriesLanguagesConnections::getTableName(), 'country_id',
-            'language_id')->select('id');
+        return $this->belongsToMany(
+            HCLanguages::class,
+            HCCountriesLanguagesConnections::getTableName(),
+            'country_id',
+            'language_id'
+        )->select('id');
     }
-
 }
