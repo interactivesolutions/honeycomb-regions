@@ -1,9 +1,14 @@
 <?php
+declare(strict_types = 1);
 
 namespace interactivesolutions\honeycombregions\database\seeds;
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Class HoneyCombDatabaseSeeder
+ * @package interactivesolutions\honeycombregions\database\seeds
+ */
 class HoneyCombDatabaseSeeder extends Seeder
 {
     /**
@@ -11,7 +16,7 @@ class HoneyCombDatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call(ContinentsSeeder::class);
         $this->call(CountriesSeeder::class);

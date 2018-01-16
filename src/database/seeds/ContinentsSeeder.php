@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace interactivesolutions\honeycombregions\database\seeds;
 
@@ -6,6 +7,10 @@ use DB;
 use Illuminate\Database\Seeder;
 use interactivesolutions\honeycombregions\app\models\regions\HCContinents;
 
+/**
+ * Class ContinentsSeeder
+ * @package interactivesolutions\honeycombregions\database\seeds
+ */
 class ContinentsSeeder extends Seeder
 {
     /**
@@ -13,7 +18,7 @@ class ContinentsSeeder extends Seeder
      * @return void
      * @throws \Exception
      */
-    public function run()
+    public function run(): void
     {
         $ids = getRinvexCountryIDs();
         $continents = [];

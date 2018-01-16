@@ -1,22 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mantas Gelcius
- * Date: 3/6/2017
- * Time: 11:09 AM
- */
+
+declare(strict_types = 1);
 
 namespace interactivesolutions\honeycombregions\database\seeds;
-
 
 use Illuminate\Database\Seeder;
 use interactivesolutions\honeycombregions\app\models\regions\HCMunicipalities;
 use DB;
 
+/**
+ * Class MunicipalitiesSeeder
+ * @package interactivesolutions\honeycombregions\database\seeds
+ */
 class MunicipalitiesSeeder extends Seeder
 {
-
-    public function run()
+    /**
+     * @throws \Exception
+     * @throws \Rinvex\Country\CountryLoaderException
+     */
+    public function run(): void
     {
         $countryIDs = getRinvexCountryIDs();
         $municipalities = [];
@@ -26,26 +28,24 @@ class MunicipalitiesSeeder extends Seeder
         foreach ($countryIDs as $id) {
             $divisions = country($id)->getDivisions();
 
-            if (sizeof($divisions) != 0) {
+            if ($divisions && sizeof($divisions) != 0) {
                 foreach ($divisions as $key => $division) {
                     if ($division['name'] && $division['name'] != '') {
-                        $municipalities[] =
-                            [
-                                'id' => strtolower($id . '-' . $key),
-                                'country_id' => $id,
-                                'name' => $division['name'],
-                                'translation_key' => 'HCRegions::municipalities_names.' . createTranslationKey($id . '.' . $key),
-                            ];
+                        $municipalities[] = [
+                            'id' => strtolower($id . '-' . $key),
+                            'country_id' => $id,
+                            'name' => $division['name'],
+                            'translation_key' => 'HCRegions::municipalities_names.' .
+                                createTranslationKey($id . '.' . $key),
+                        ];
                     }
                     $translations[$id][strtolower($id . '.' . $key)] = $division['name'];
                 }
-
             }
         }
         DB::beginTransaction();
 
         try {
-
             foreach ($municipalities as $municipality) {
                 $existing = HCMunicipalities::find($municipality['id']);
 
@@ -55,17 +55,14 @@ class MunicipalitiesSeeder extends Seeder
                     HCMunicipalities::create($municipality);
                 }
             }
-
         } catch (\Exception $e) {
-
             DB::rollback();
             throw new \Exception($e);
         }
 
         DB::commit();
-
-        foreach ($translations as $key => $value) {
-            foreach ($value as $key => $value) {
+        foreach ($translations as $array) {
+            foreach ($array as $key => $value) {
                 $enTranslation[$key] = $value;
             }
         }
@@ -74,16 +71,12 @@ class MunicipalitiesSeeder extends Seeder
             mkdir(__DIR__ . '/../../resources/lang/en');
         }
 
-        $content = str_replace(');', '];',
-            "<?php \r\n return " . str_replace('array (', '[', var_export($enTranslation, true)) . ';');
+        $content = str_replace(
+            ');',
+            '];',
+            "<?php \r\n return " .
+            str_replace('array (', '[', var_export($enTranslation, true)) . ';'
+        );
         file_put_contents(__DIR__ . '/../../resources/lang/en/municipalities_names.php', $content);
-
-        /*foreach ($translations as $key => $value) {
-                if (!file_exists(__DIR__ . '/../../resources/lang/' . $key))
-                    mkdir(__DIR__ . '/../../resources/lang/' . $key);
-
-                $content = str_replace(');', '];', "<?php \r\n return " . str_replace('array (', '[', var_export($value, true)) . ';');
-                file_put_contents(__DIR__ . '/../../resources/lang/' . $key . '/municipalities_names.php', $content);
-        }*/
     }
 }
